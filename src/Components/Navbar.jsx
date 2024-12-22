@@ -163,7 +163,7 @@ const Navbar = () => {
           </NavLink>
 
           <a
-            href="http://localhost:5174/"
+            href="https://thelocalbazzaradmin.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setVisible(false)}
