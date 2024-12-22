@@ -78,12 +78,7 @@ const Navbar = () => {
           {token && (
             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                <p
-                  
-                  className="cursor-pointer hover:text-black"
-                >
-                  My Profiles
-                </p>
+                <p className="cursor-pointer hover:text-black">My Profiles</p>
                 <p
                   onClick={() => navigate("/orders")}
                   className="cursor-pointer hover:text-black"
@@ -106,7 +101,7 @@ const Navbar = () => {
         </Link>
 
         <a
-          href="http://localhost:5174/"
+          href="https://thelocalbazzaradmin.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden sm:flex items-center justify-center px-4 py-2 border rounded-full text-gray-700 border-gray-300 hover:bg-gray-100"
