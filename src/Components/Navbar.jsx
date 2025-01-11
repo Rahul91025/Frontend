@@ -126,7 +126,7 @@ const Navbar = () => {
           </Link>
 
           <a
-            href="https://thelocalbazzaradmin.vercel.app"
+            href="https://adminpanel-63mz.onrender.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center justify-center px-4 py-2 border rounded-full text-gray-700 border-gray-300 hover:bg-gray-100"
@@ -187,7 +187,7 @@ const Navbar = () => {
               CONTACT
             </NavLink>
             <a
-              href="http://localhost:5174/"
+              href="https://adminpanel-63mz.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setVisible(false)}
