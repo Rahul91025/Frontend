@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 import Verify from './Pages/Verify';
+import AccountPage from './Pages/Profile'
 
 const App = () => {
   return (
@@ -32,11 +33,12 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
-        
+
         <Route path="/login" element={<Login />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/profile" element={<AccountPage />} />
       </Routes>
       <Footer />
     </div>

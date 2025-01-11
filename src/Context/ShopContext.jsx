@@ -1,8 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-// import { products } from "../assets/assets";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 export const ShopContext = createContext();
 
@@ -15,7 +14,79 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
+  const [bLocation, setBLocation] = useState([]);
+  const [flocation, setFLocation] = useState([]);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [notifications, setNotifications] = useState([
+    // Example notifications, you can change this as per your data
+    { id: 1, message: "New product added!" },
+    { id: 2, message: "Order shipped!" },
+  ]);
+  const getNotificationCount = () => {
+    return notifications.length;
+  };
+
   const navigate = useNavigate();
+
+
+const applyCoupon = () => {
+  setCouponApplied(true);
+};
+
+const removeCoupon = () => {
+  setCouponApplied(false);
+};
+
+
+  // Function to fetch user's current location
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            reject(`Error getting location: ${error.message}`);
+          }
+        );
+      } else {
+        reject("Geolocation is not supported by this browser.");
+      }
+    });
+  };
+
+  const fetchUserLocation = async () => {
+    try {
+      const userLocation = await getCurrentLocation();
+      console.log(userLocation);
+      setFLocation(userLocation);
+    } catch (err) {
+      console.error(err);
+
+    }
+  };
+
+  // Function to fetch locations from the backend
+  const getLocation = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/product/list`);
+
+      if (response.data.success) {
+        const locations = response.data.products.map((product) => ({
+          latitude: product.storeAddress.latitude,
+          longitude: product.storeAddress.longitude,
+        }));
+
+        setBLocation(locations);
+        console.log("Extracted Locations:", locations);
+      }
+    } catch (error) {
+      console.error("Failed to get location", error);
+      toast.error("Failed to get location. Please try again later.");
+    }
+  };
 
   // Save cartItems to local storage
   const saveCartToLocalStorage = (cartData) => {
@@ -53,7 +124,7 @@ const ShopContextProvider = (props) => {
         await axios.post(
           backendUrl + "/api/cart/add",
           { itemId, size },
-          { headers: { token } }
+          { headers: {token} }
         );
       } catch (error) {
         console.log(error);
@@ -78,9 +149,11 @@ const ShopContextProvider = (props) => {
     return totalCount;
   };
 
-  useEffect(() => {
-    // console.log(cartItems);
-  }, [cartItems]);
+   useEffect(() => {
+     // console.log(cartItems);
+   }, [cartItems]);
+
+
 
   const updateQuantity = async (itemId, size, quantity) => {
     let cartData = structuredClone(cartItems);
@@ -95,7 +168,7 @@ const ShopContextProvider = (props) => {
         await axios.post(
           backendUrl + "/api/cart/update",
           { itemId, size, quantity },
-          { headers: { token } }
+          { headers: {token} }
         );
       } catch (error) {
         console.log(error);
@@ -145,17 +218,16 @@ const ShopContextProvider = (props) => {
       const response = await axios.post(
         backendUrl + "/api/cart/get",
         {},
-        { headers: token }
+        { headers: {token} }
       );
-      // console.log(response);
-      // console.log(backendUrl)
+
       if (response.data.success) {
         setCartItems(response.data.cartData);
         saveCartToLocalStorage(response.data.cartData);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Failed to fetch user cart");
+     
     }
   };
 
@@ -163,18 +235,21 @@ const ShopContextProvider = (props) => {
     const savedCart = loadCartFromLocalStorage();
     setCartItems(savedCart);
     getProductsData();
+    getLocation();
+    fetchUserLocation();
   }, []);
 
   useEffect(() => {
     if (!token && localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"));
-      getUserCart(localStorage.getItem("token"));
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+      getUserCart(storedToken);
     }
   }, []);
 
-   useEffect(() => {
-     saveCartToLocalStorage(cartItems);
-   }, [cartItems]);
+  useEffect(() => {
+    saveCartToLocalStorage(cartItems);
+  }, [cartItems]);
 
   const value = {
     products,
@@ -194,6 +269,14 @@ const ShopContextProvider = (props) => {
     setToken,
     token,
     setCartItems,
+    bLocation,
+    flocation,
+    applyCoupon,
+    removeCoupon,
+    couponApplied,
+    notifications,
+    setNotifications,
+    getNotificationCount,
   };
 
   return (
