@@ -46,24 +46,34 @@ function AccountPage() {
   };
 
   const handleEditToggle = () => {
-    // Check if any required field is empty
-    if (
-      !userData.fullName ||
-      !userData.mobileNumber ||
-      !userData.email ||
-      !userData.dob ||
-      !userData.pincode ||
-      !userData.city ||
-      !userData.state
-    ) {
-      toast.error("All fields are required!");
-      return;
-    }
-
+    // Remove the field validation here
     if (isEditing) {
-      // Save user data to localStorage
-      localStorage.setItem("userData", JSON.stringify(userData));
-      toast.success("Profile updated successfully!");
+      // Validate fields before saving
+      const requiredFields = [
+        "fullName",
+        "mobileNumber",
+        "email",
+        "gender",
+        "dob",
+        "pincode",
+        "city",
+        "state",
+      ];
+      let isValid = true;
+
+      for (let field of requiredFields) {
+        if (!userData[field]) {
+          isValid = false;
+          toast.error("All fields are required!");
+          break;
+        }
+      }
+
+      if (isValid) {
+        // Save user data to localStorage
+        localStorage.setItem("userData", JSON.stringify(userData));
+        toast.success("Profile updated successfully!");
+      }
     }
     setIsEditing(!isEditing);
   };
@@ -252,7 +262,7 @@ function AccountPage() {
           <div className="mt-4 text-center">
             <button
               onClick={handleEditToggle}
-              className="bg-black text-white px-4 py-2 rounded"
+              className="bg-blue-500 text-white px-4 py-2 rounded"
             >
               {isEditing ? "Save Changes" : "Edit Profile"}
             </button>
