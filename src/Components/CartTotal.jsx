@@ -70,7 +70,7 @@ const CartTotal = ({ showCouponButtons = true }) => {
 
         {showCouponButtons && !couponApplied && (
           <button
-            className="relative top-[4.8rem] left-6 bg-black w-[11.4rem] hover:bg-gray-800 text-white py-3 px-4 "
+            className="relative sm:top-[4.8rem] top-7 sm:left-6 sm:w-[11.4rem] w-[6rem] w-[14rem] left-[9.5rem] sm:mb-0 mb-4 bg-black hover:bg-gray-800 text-white py-3 px-4"
             onClick={() => setShowCouponPopup(true)}
           >
             Apply Coupon
@@ -79,7 +79,7 @@ const CartTotal = ({ showCouponButtons = true }) => {
 
         {showCouponButtons && couponApplied && (
           <button
-            className="relative top-[4.8rem] left-6 bg-red-500 w-[10rem] hover:bg-gray-800 text-white py-3 px-4"
+            className="relative sm:top-[4.8rem] top-0 sm:left-6 sm:w-[10rem] w-[6rem] sm:mb-0 mb-4 bg-red-500 hover:bg-gray-800 text-white py-3 px-4"
             onClick={removeCoupon}
           >
             Remove Coupon

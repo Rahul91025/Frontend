@@ -33,7 +33,7 @@ const Collection = () => {
         (location) => `${location.latitude},${location.longitude}`
       );
 
-      const apiKey = "AlzaSyPZhCYVd3OCJK5ewKH4nU2WP6iUiI5MbLo"; // Replace with your actual API key
+      const apiKey = "AlzaSydEI2v1y6zqA8awWGx1VPI4Ap_DJl2ioVu"; // Replace with your actual API key
       const url = `https://maps.gomaps.pro/maps/api/distancematrix/json?origins=${source}&destinations=${destination.join(
         "|"
       )}&key=${apiKey}`;
@@ -139,8 +139,8 @@ const Collection = () => {
        if (distanceData.length > 0) {
          const updatedProducts = filterProducts.map((product, index) => ({
            ...product,
-           distance: distanceData[index]?.distance || "Not Available",
-           duration: distanceData[index]?.duration || "Not Available",
+           distance: distanceData[index]?.distance || "",
+           duration: distanceData[index]?.duration || "",
          }));
          setFilterProducts(updatedProducts);
        }

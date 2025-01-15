@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const CategoryPage = () => {
@@ -55,21 +55,43 @@ const CategoryPage = () => {
     },
   ];
 
+  // State to track window width
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Update window width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener when component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Determine categories to show based on screen size
+  const displayedCategories =
+    windowWidth < 768 ? categories.slice(1, 9) : categories.slice(0, 10);
+
   return (
     <div className="bg-white p-6 mt-[2rem]">
       {/* Container for the category list */}
-      <div className="grid grid-cols-5 gap-4">
-        {categories.map((category, index) => (
+      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-4">
+        {displayedCategories.map((category, index) => (
           <NavLink
             to="/collection"
             key={index}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center text-center hover:scale-105 transition-transform duration-300"
           >
-            {/* Circular image */}
+            {/* Circular image with hover effect */}
             <div
-              className="w-20 h-20 rounded-full overflow-hidden border-2 border-pink-400"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2 border-pink-400 mb-4"
               style={{
-                boxShadow: "0 0 10px 2px rgba(255, 182, 193, 0.8)",
+                boxShadow: "0 0 15px 4px rgba(255, 182, 193, 0.6)",
               }}
             >
               <img
@@ -79,7 +101,7 @@ const CategoryPage = () => {
               />
             </div>
             {/* Category name */}
-            <p className="text-sm font-medium text-center mt-2">
+            <p className="text-sm sm:text-base font-semibold text-gray-800">
               {category.name}
             </p>
           </NavLink>

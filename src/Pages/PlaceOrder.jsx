@@ -307,21 +307,51 @@ const PlaceOrder = () => {
                 alt="Razorpay Logo"
               />
             </div>
+            {/* Debit Card Option */}
             <div
-              onClick={() => setMethod("cod")}
+              onClick={() => setMethod("debit")}
               className={`flex items-center gap-3 border p-2 px-3 cursor-pointer ${
-                method === "cod" ? "border-green-400 bg-gray-100" : ""
+                method === "debit" ? "border-green-400 bg-gray-100" : ""
               }`}
             >
               <p
                 className={`w-4 h-4 border rounded-full ${
-                  method === "cod" ? "bg-green-400" : ""
+                  method === "debit" ? "bg-green-400" : ""
                 }`}
               ></p>
-              <p className="text-gray-800 text-sm">Cash On Delivery</p>
+              <p className="text-gray-800 text-sm">Debit Card</p>
+            </div>
+            {/* Credit Card Option */}
+            <div
+              onClick={() => setMethod("credit")}
+              className={`flex items-center gap-3 border p-2 px-3 cursor-pointer ${
+                method === "credit" ? "border-green-400 bg-gray-100" : ""
+              }`}
+            >
+              <p
+                className={`w-4 h-4 border rounded-full ${
+                  method === "credit" ? "bg-green-400" : ""
+                }`}
+              ></p>
+              <p className="text-gray-800 text-sm">Credit Card</p>
             </div>
           </div>
+          {/* Cash On Delivery Option */}
+          <div
+            onClick={() => setMethod("cod")}
+            className={`flex items-center mt-[1rem] w-[11rem]  gap-3 border p-2 px-3 cursor-pointer ${
+              method === "cod" ? "border-green-400 bg-gray-100" : ""
+            }`}
+          >
+            <p
+              className={`w-4 h-4 border rounded-full ${
+                method === "cod" ? "bg-green-400" : ""
+              }`}
+            ></p>
+            <p className="text-gray-800 text-sm">Cash On Delivery</p>
+          </div>
         </div>
+
         <div className="flex gap-3 mt-8">
           <button
             type="submit"

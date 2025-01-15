@@ -6,7 +6,7 @@ const Hero = () => {
 
   // Array of image URLs
   const images = [
-     assets.hero_img, 
+    assets.hero_img,
     "https://i.postimg.cc/rmF8d2D6/download-We-Resize-com.png",
     "https://i.postimg.cc/BbRsw8Ms/download-We-Resize-com-1.png",
     "https://i.postimg.cc/bwcpxtZ9/download-We-Resize-com-2.png",
@@ -21,7 +21,7 @@ const Hero = () => {
   }, [images.length]);
 
   return (
-    <div className="relative w-full h-[550px] sm:h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden border border-gray-400 mt-[2rem]">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden border border-gray-400 mt-[2rem]">
       {/* Slider Container */}
       <div
         className="flex w-full h-full transition-transform duration-500 ease-in-out"
@@ -38,16 +38,18 @@ const Hero = () => {
       </div>
 
       {/* Dots for Navigation */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            className={`w-3 h-3 rounded-full ${
-              currentIndex === index ? "bg-blue-500" : "bg-gray-300"
-            }`}
-            onClick={() => setCurrentIndex(index)}
-          ></button>
-        ))}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center w-full">
+        <div className="grid grid-cols-3 gap-2 md:grid-cols-2">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              className={`w-3 h-3 rounded-full ${
+                currentIndex === index ? "bg-blue-500" : "bg-gray-300"
+              }`}
+              onClick={() => setCurrentIndex(index)}
+            ></button>
+          ))}
+        </div>
       </div>
     </div>
   );
