@@ -30,7 +30,7 @@ const Navbar = () => {
         <Link to="/">
           <h1 className="text-md sm:text-xl md:text-2xl lg:text-2xl font-extrabold tracking-widest text-gray-800 uppercase relative text-center leading-tight">
             <span className="font-serif bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 bg-clip-text text-transparent">
-              My Local Bazzar
+              My Local Bazar
             </span>
             <span className="inline-block text-pink-400 ml-1 md:ml-2 animate-pulse">
               .
