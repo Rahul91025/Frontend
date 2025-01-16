@@ -73,10 +73,10 @@ const Navbar = () => {
           />
 
           <div className="group relative">
-          <img
+         <img
               onClick={() => (token ? null : navigate("/login"))}
               src={assets.profile_icon}
-              className="w-5 cursor-pointer"
+              className="w-[3rem] sm:w-4 cursor-pointer"
               alt=""
             />
 
