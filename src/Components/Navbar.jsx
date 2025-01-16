@@ -76,7 +76,7 @@ const Navbar = () => {
          <img
               onClick={() => (token ? null : navigate("/login"))}
               src={assets.profile_icon}
-              className="w-[3rem] sm:w-4 cursor-pointer"
+              className="w-[6rem] sm:w-4 cursor-pointer"
               alt=""
             />
 
