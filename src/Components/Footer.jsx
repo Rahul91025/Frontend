@@ -9,7 +9,7 @@ const Footer = () => {
             <div>
             <h1 className="text-2xl mb-4 font-extrabold tracking-widest text-gray-800 uppercase relative">
   <span className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 bg-clip-text text-transparent">
-   The Local Bazzar
+   My Local Bazar
   </span>
   <span className="inline-block text-pink-400 ml-2 animate-pulse">.</span>
   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-20 bg-pink-300 rounded-full"></div>
@@ -46,7 +46,7 @@ const Footer = () => {
         </div>
         <div>
                 <hr/>
-                <p className='py-5 text-sm text-center'> Copyright 2024@ LocalBazzar.com - All Right Reserved. </p>
+                <p className='py-5 text-sm text-center'> Copyright 2024@ LocalBazar.com - All Right Reserved. </p>
             </div>
       
     </div>
