@@ -55,30 +55,29 @@ const CategoryPage = () => {
     },
   ];
 
-  // State to track window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Update window width on resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    // Add resize event listener
     window.addEventListener("resize", handleResize);
 
-    // Clean up the event listener when component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Determine categories to show based on screen size
   const displayedCategories =
     windowWidth < 768 ? categories.slice(1, 9) : categories.slice(0, 10);
 
   return (
     <div className="bg-white p-6 mt-[2rem]">
+      {/* Title for the categories */}
+      <h2 className="text-2xl font-extralight text-gray-600 mb-6 sm:ml-[5rem]  ">
+        Categories
+      </h2>
       {/* Container for the category list */}
       <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-4">
         {displayedCategories.map((category, index) => (
@@ -107,6 +106,10 @@ const CategoryPage = () => {
           </NavLink>
         ))}
       </div>
+      <hr
+        className="mt-[4rem] border-t-2 border-gray-600 rounded-md"
+        style={{ width: "104%", marginLeft: "-2%" }}
+      />
     </div>
   );
 };
