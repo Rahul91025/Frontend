@@ -15,12 +15,19 @@ function AccountPage() {
     dob: "",
     pincode: "110001",
     city: "",
-    state: "Delhi",
+    state: "",
     alternateMobile: "",
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  // Load data from localStorage on mount
+  const statesWithCities = {
+    Delhi: ["New Delhi", "Dwarka", "Karol Bagh"],
+    Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+    Karnataka: ["Bangalore", "Mysore", "Mangalore"],
+    Gujarat: ["Ahmedabad", "Surat", "Vadodara"],
+    UttarPradesh: ["Lucknow", "Kanpur", "Varanasi"],
+  };
+
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
     const storedImage = localStorage.getItem(`profileImage-${token}`);
@@ -45,10 +52,13 @@ function AccountPage() {
     }
   };
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleEditToggle = () => {
-    // Remove the field validation here
     if (isEditing) {
-      // Validate fields before saving
       const requiredFields = [
         "fullName",
         "mobileNumber",
@@ -61,21 +71,33 @@ function AccountPage() {
       ];
       let isValid = true;
 
+      if (!validateEmail(userData.email)) {
+        isValid = false;
+        toast.error("Invalid email format!");
+      }
+
+      const mobileRegex = /^\d{10}$/;
+      if (!mobileRegex.test(userData.mobileNumber)) {
+        isValid = false;
+        toast.error("Mobile number must be 10 digits!");
+      }
+
       for (let field of requiredFields) {
         if (!userData[field]) {
           isValid = false;
-          toast.error("All fields are required!");
+          toast.error(`${field} is required!`);
           break;
         }
       }
 
       if (isValid) {
-        // Save user data to localStorage
         localStorage.setItem("userData", JSON.stringify(userData));
         toast.success("Profile updated successfully!");
+        setIsEditing(false);
       }
+    } else {
+      setIsEditing(true);
     }
-    setIsEditing(!isEditing);
   };
 
   const handleChange = (field, value) => {
@@ -115,149 +137,64 @@ function AccountPage() {
         <h3 className="text-lg font-bold mb-4 text-center">Profile Details</h3>
         <hr className="border-gray-300 my-2" />
         <div className="border-t pt-4">
-          {/* Full Name */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Full Name</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.fullName}
-                onChange={(e) => handleChange("fullName", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.fullName || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* Mobile Number */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Mobile Number</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.mobileNumber}
-                onChange={(e) => handleChange("mobileNumber", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.mobileNumber || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* Email */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Email</label>
-            {isEditing ? (
-              <input
-                type="email"
-                value={userData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.email || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* Gender */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Gender</label>
-            {isEditing ? (
-              <select
-                value={userData.gender}
-                onChange={(e) => handleChange("gender", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              >
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
-              </select>
-            ) : (
-              <span>{userData.gender}</span>
-            )}
-          </div>
-
-          {/* Date of Birth */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Date of Birth</label>
-            {isEditing ? (
-              <DatePicker
-                selected={userData.dob ? new Date(userData.dob) : null}
-                onChange={(date) => handleChange("dob", date)}
-                dateFormat="yyyy-MM-dd"
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>
-                {userData.dob
-                  ? new Date(userData.dob).toLocaleDateString()
-                  : "Not Provided"}
-              </span>
-            )}
-          </div>
-
-          {/* Pincode */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Pincode</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.pincode}
-                onChange={(e) => handleChange("pincode", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.pincode || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* City */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">City</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.city}
-                onChange={(e) => handleChange("city", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.city || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* State */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">State</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.state}
-                onChange={(e) => handleChange("state", e.target.value)}
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.state || "Not Provided"}</span>
-            )}
-          </div>
-
-          {/* Alternate Mobile */}
-          <div className="mb-4 flex justify-between items-center">
-            <label className="font-bold">Alternate Mobile</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={userData.alternateMobile}
-                onChange={(e) =>
-                  handleChange("alternateMobile", e.target.value)
-                }
-                className="border border-gray-300 rounded px-2"
-              />
-            ) : (
-              <span>{userData.alternateMobile || "Not Provided"}</span>
-            )}
-          </div>
+          {Object.keys(userData).map((key) => (
+            <div key={key} className="mb-4 flex justify-between items-center">
+              <label className="font-bold capitalize">
+                {key.replace(/([A-Z])/g, " $1")}
+              </label>
+              {isEditing ? (
+                key === "dob" ? (
+                  <DatePicker
+                    selected={userData.dob ? new Date(userData.dob) : null}
+                    onChange={(date) =>
+                      handleChange(
+                        "dob",
+                        date ? date.toISOString().split("T")[0] : ""
+                      )
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    className="border border-gray-300 rounded px-2"
+                  />
+                ) : key === "state" ? (
+                  <select
+                    value={userData.state}
+                    onChange={(e) => handleChange("state", e.target.value)}
+                    className="border border-gray-300 rounded px-2"
+                  >
+                    <option value="">Select State</option>
+                    {Object.keys(statesWithCities).map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+                ) : key === "city" ? (
+                  <select
+                    value={userData.city}
+                    onChange={(e) => handleChange("city", e.target.value)}
+                    className="border border-gray-300 rounded px-2"
+                    disabled={!userData.state}
+                  >
+                    <option value="">Select City</option>
+                    {statesWithCities[userData.state]?.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={userData[key]}
+                    onChange={(e) => handleChange(key, e.target.value)}
+                    className="border border-gray-300 rounded px-2"
+                  />
+                )
+              ) : (
+                <span>{userData[key] || "Not Provided"}</span>
+              )}
+            </div>
+          ))}
 
           <div className="mt-4 text-center">
             <button
