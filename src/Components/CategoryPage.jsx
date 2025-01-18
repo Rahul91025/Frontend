@@ -75,7 +75,7 @@ const CategoryPage = () => {
   return (
     <div className="bg-white p-6 mt-[2rem]">
       {/* Title for the categories */}
-      <h2 className="text-2xl font-extralight text-gray-600 mb-6 sm:ml-[5rem]  ">
+      <h2 className="text-2xl font-semibold text-gray-600 mb-6 sm:ml-[5rem]">
         Categories
       </h2>
       {/* Container for the category list */}
@@ -106,10 +106,15 @@ const CategoryPage = () => {
           </NavLink>
         ))}
       </div>
-      <hr
-        className="mt-[4rem] border-t-2 border-gray-600 rounded-md"
-        style={{ width: "104%", marginLeft: "-2%" }}
-      />
+      {/* Divider */}
+      <hr className="mt-[4rem] border-t-2 border-gray-600 rounded-md" />
+      {/* Recently Viewed Section */}
+      <div className="relative top-8">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+          Recently Viewed
+        </h2>
+        
+      </div>
     </div>
   );
 };
