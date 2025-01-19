@@ -9,14 +9,14 @@ function AccountPage() {
   const [profileImage, setProfileImage] = useState(null);
   const [userData, setUserData] = useState({
     fullName: "",
-    mobileNumber: "1234567890",
+    mobileNumber: "91+1234567890",
     email: "",
     gender: "MALE",
     dob: "",
     pincode: "110001",
     city: "",
     state: "",
-    alternateMobile: "",
+    alternateMobile: "91+",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -76,10 +76,10 @@ function AccountPage() {
         toast.error("Invalid email format!");
       }
 
-      const mobileRegex = /^\d{10}$/;
+      const mobileRegex = /^91\+\d{10}$/;
       if (!mobileRegex.test(userData.mobileNumber)) {
         isValid = false;
-        toast.error("Mobile number must be 10 digits!");
+        toast.error("Mobile number must start with 91+ and be 10 digits!");
       }
 
       for (let field of requiredFields) {
@@ -101,7 +101,14 @@ function AccountPage() {
   };
 
   const handleChange = (field, value) => {
-    setUserData((prevData) => ({ ...prevData, [field]: value }));
+    setUserData((prevData) => {
+      if (field === "mobileNumber" || field === "alternateMobile") {
+        if (!value.startsWith("91+")) {
+          value = "91+" + value.replace(/^91\+/, "");
+        }
+      }
+      return { ...prevData, [field]: value };
+    });
   };
 
   return (
@@ -182,6 +189,28 @@ function AccountPage() {
                       </option>
                     ))}
                   </select>
+                ) : key === "mobileNumber" || key === "alternateMobile" ? (
+                  <div className="flex items-center border border-gray-300 rounded px-2">
+                    <span className="mr-2 flex items-center">
+                      <img
+                        src="https://flagcdn.com/in.svg"
+                        alt="Indian Flag"
+                        className="w-5 h-5 mr-1"
+                      />
+                      +91
+                    </span>
+                    <input
+                      type="text"
+                      value={userData[key].replace(/^91\+/, "")}
+                      onChange={(e) =>
+                        handleChange(key, `91+${e.target.value}`)
+                      }
+                      className="outline-none flex-grow ml-5"
+                      placeholder={
+                        key === "mobileNumber" ? "1234567890" : "Optional"
+                      }
+                    />
+                  </div>
                 ) : (
                   <input
                     type="text"
@@ -191,7 +220,20 @@ function AccountPage() {
                   />
                 )
               ) : (
-                <span>{userData[key] || "Not Provided"}</span>
+                <span>
+                  {key === "mobileNumber" || key === "alternateMobile" ? (
+                    <>
+                      <img
+                        src="https://flagcdn.com/in.svg"
+                        alt="Indian Flag"
+                        className="w-5 h-5 inline mr-1"
+                      />
+                      {userData[key]}
+                    </>
+                  ) : (
+                    userData[key] || "Not Provided"
+                  )}
+                </span>
               )}
             </div>
           ))}
