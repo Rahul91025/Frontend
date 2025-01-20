@@ -9,11 +9,11 @@ function AccountPage() {
   const [profileImage, setProfileImage] = useState(null);
   const [userData, setUserData] = useState({
     fullName: "",
-    mobileNumber: "91+1234567890",
+    mobileNumber: "91+",
     email: "",
     gender: "MALE",
     dob: "",
-    pincode: "110001",
+    pincode: "",
     city: "",
     state: "",
     alternateMobile: "91+",
@@ -189,6 +189,16 @@ function AccountPage() {
                       </option>
                     ))}
                   </select>
+                ) : key === "gender" ? (
+                  <select
+                    value={userData.gender}
+                    onChange={(e) => handleChange("gender", e.target.value)}
+                    className="border border-gray-300 rounded px-2"
+                  >
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHERS">Others</option>
+                  </select>
                 ) : key === "mobileNumber" || key === "alternateMobile" ? (
                   <div className="flex items-center border border-gray-300 rounded px-2">
                     <span className="mr-2 flex items-center">
@@ -207,7 +217,7 @@ function AccountPage() {
                       }
                       className="outline-none flex-grow ml-5"
                       placeholder={
-                        key === "mobileNumber" ? "1234567890" : "Optional"
+                        key === "mobileNumber" ? "" : "Optional"
                       }
                     />
                   </div>
