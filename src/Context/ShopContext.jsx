@@ -209,6 +209,7 @@ const removeCoupon = () => {
     }
   };
 
+
   const getUserCart = async (token) => {
     if (!token) {
       toast.error("No token found. Please log in.");
@@ -251,6 +252,11 @@ const removeCoupon = () => {
     saveCartToLocalStorage(cartItems);
   }, [cartItems]);
 
+  useEffect(() => {
+    getProductsData();
+  }, []);
+
+
   const value = {
     products,
     currency,
@@ -277,6 +283,7 @@ const removeCoupon = () => {
     notifications,
     setNotifications,
     getNotificationCount,
+    getProductsData
   };
 
   return (
