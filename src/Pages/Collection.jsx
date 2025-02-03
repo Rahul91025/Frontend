@@ -5,14 +5,22 @@ import Title from "../Components/Title";
 import ProductItem from "../Components/ProductItem";
 
 const Collection = () => {
-  const { products, search, showSearch, flocation, bLocation } =
-    useContext(ShopContext);
+  const {
+    products,
+    getProductsData,
+    search,
+    showSearch,
+    flocation,
+    bLocation,
+  } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relavent");
   const [productsByMarket, setProductsByMarket] = useState({});
+  const [loading, setLoading] = useState(true);
+
 
   const groupByMarket = (products) => {
     const grouped = {};
@@ -139,8 +147,8 @@ const Collection = () => {
        if (distanceData.length > 0) {
          const updatedProducts = filterProducts.map((product, index) => ({
            ...product,
-           distance: distanceData[index]?.distance || "",
-           duration: distanceData[index]?.duration || "",
+           distance: distanceData[index]?.distance || "Not Available",
+           duration: distanceData[index]?.duration || "Not Available",
          }));
          setFilterProducts(updatedProducts);
        }
@@ -158,6 +166,14 @@ const Collection = () => {
   useEffect(() => {
     sortProduct();
   }, [sortType]);
+
+   useEffect(() => {
+     const fetchProducts = async () => {
+       await getProductsData();
+       setLoading(false);
+     };
+     fetchProducts();
+   }, []);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -265,7 +281,7 @@ const Collection = () => {
         </div>
 
         {/* Product List */}
-        {filterProducts.length === 0 ? (
+        {loading ? (
           <p>Loading products...</p>
         ) : (
           <div className="flex-1">
